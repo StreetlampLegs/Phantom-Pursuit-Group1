@@ -8,6 +8,7 @@ public class MazeGenerator : MonoBehaviour
     [Range(5, 500)]
     public int mazeWidth = 5, mazeHeight = 5;
     public int startX, startY;
+    public int minCorridorLength = 1;
     MazeCell[,] maze;
 
     Vector2Int currentCell;
@@ -55,58 +56,107 @@ public class MazeGenerator : MonoBehaviour
 
     bool IsCellValid(int x, int y)
     {
-        if (x < 0 || x > mazeWidth - 1 || y < 0 || y > mazeHeight - 1 || maze[x, y].visited) return false;
-        else return true;
+        return !(x < 0 || x >= mazeWidth || y < 0 || y >= mazeHeight || maze[x, y].visited);
     }
+
 
     Vector2Int CheckNeighbours()
     {
         List<Direction> randomDir = GetRandomDirections();
-
+        Vector2Int bestNeighbour = currentCell;
 
         for (int i = 0; i < randomDir.Count; i++)
         {
             Vector2Int neighbour = currentCell;
+            int corridorLength = 0;
 
             switch (randomDir[i])
             {
                 case Direction.Up:
                     neighbour.y++;
+                    while (IsCellValid(neighbour.x, neighbour.y))
+                    {
+                        corridorLength++;
+                        if (corridorLength >= minCorridorLength || neighbour.y >= mazeHeight)
+                            break;
+                        neighbour.y++;
+                    }
                     break;
                 case Direction.Down:
                     neighbour.y--;
+                    while (IsCellValid(neighbour.x, neighbour.y))
+                    {
+                        corridorLength++;
+                        if (corridorLength >= minCorridorLength || neighbour.y <= 0)
+                            break;
+                        neighbour.y--;
+                    }
                     break;
                 case Direction.Left:
                     neighbour.x--;
+                    while (IsCellValid(neighbour.x, neighbour.y))
+                    {
+                        corridorLength++;
+                        if (corridorLength >= minCorridorLength || neighbour.x <= 0)
+                            break;
+                        neighbour.x--;
+                    }
                     break;
                 case Direction.Right:
                     neighbour.x++;
+                    while (IsCellValid(neighbour.x, neighbour.y))
+                    {
+                        corridorLength++;
+                        if (corridorLength >= minCorridorLength || neighbour.x >= mazeWidth)
+                            break;
+                        neighbour.x++;
+                    }
                     break;
             }
 
-            if (IsCellValid(neighbour.x, neighbour.y)) return neighbour;
+            if(corridorLength >= minCorridorLength)
+            {
+                bestNeighbour = neighbour;
+                break;
+            }
         }
 
-        return currentCell;
+        return bestNeighbour;
     }
 
     void BreakWalls(Vector2Int primaryCell, Vector2Int secondaryCell)
     {
         if (primaryCell.x > secondaryCell.x)
         {
-            maze[primaryCell.x, primaryCell.y].leftWall = false;
+            while (primaryCell.x > secondaryCell.x)
+            {
+                maze[primaryCell.x, primaryCell.y].leftWall = false;
+                primaryCell.x--;
+            }
         }
         else if (primaryCell.x < secondaryCell.x)
         {
-            maze[secondaryCell.x, secondaryCell.y].leftWall = false;
+            while (secondaryCell.x > primaryCell.x)
+            {
+                maze[secondaryCell.x, secondaryCell.y].leftWall = false;
+                secondaryCell.x--;
+            }
         }
         else if (primaryCell.y < secondaryCell.y)
         {
-            maze[primaryCell.x, primaryCell.y].topWall = false;
+            while (primaryCell.y < secondaryCell.y)
+            {
+                maze[primaryCell.x, primaryCell.y].topWall = false;
+                primaryCell.y++;
+            }
         }
         else if (primaryCell.y > secondaryCell.y)
         {
-            maze[secondaryCell.x, secondaryCell.y].topWall = false;
+           while (secondaryCell.y < primaryCell.y)
+            {
+                maze[secondaryCell.x, secondaryCell.y].topWall = false;
+                secondaryCell.y++;
+            }
         }
 
     }
