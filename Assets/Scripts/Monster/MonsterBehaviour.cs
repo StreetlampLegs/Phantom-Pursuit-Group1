@@ -9,6 +9,11 @@ public class MonsterBehaviour : MonoBehaviour
     [Header("Monster Stalking Behaviour")]
     [Tooltip("The time it takes for the monster to teleport if it cannot find the player")]
     public float timeBeforeTeleport = 20f;
+    [Space(10)]
+    [Tooltip("The time it takes for the monster to increase in speed")]
+    public float AggroSpeedIncreaseTime = 20f;
+    [Tooltip("The increase in base speed which the monster increases by in m/s")]
+    public float AggroSpeedIncreaseIncrement = 0.2f;
 
     [Space(10)]
     [Header("Monster Listening Values")]
@@ -27,14 +32,20 @@ public class MonsterBehaviour : MonoBehaviour
     NavMeshAgent agent;
     GameController gameController;
 
+
+    private float _aggroTimer;
+
     void Start()
     {
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!gameController) gameController = GameObject.Find("GameController").GetComponent<GameController>();
+
+        _aggroTimer = AggroSpeedIncreaseTime;
     }
 
     void Update()
     {
+        DoAggro();
         ListenToPlayerMovement();
     }
 
@@ -49,6 +60,20 @@ public class MonsterBehaviour : MonoBehaviour
     private void GetRandomRoamingTarget()
     {
         // If the monster cannot find the player, it will try to roam around for a while until the teleport timer happens, then it will teleport and roam around again.
+    }
+
+    private void DoAggro()
+    {
+        if (_aggroTimer <= 0)
+        {
+            Debug.Log("Aggroed");
+            agent.speed += AggroSpeedIncreaseIncrement;
+            _aggroTimer = AggroSpeedIncreaseTime;
+        }
+        else
+        {
+            _aggroTimer -= Time.deltaTime;
+        }
     }
 
     private void ListenToPlayerMovement()
