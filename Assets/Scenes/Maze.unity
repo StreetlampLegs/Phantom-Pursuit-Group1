@@ -236,7 +236,7 @@ MonoBehaviour:
   mazeHeight: 20
   startX: 0
   startY: 0
-  minCorridorLength: 3
+  minCorridorLength: 1
 --- !u!4 &1296217249
 Transform:
   m_ObjectHideFlags: 0
