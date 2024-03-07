@@ -56,7 +56,7 @@ public class MazeGenerator : MonoBehaviour
 
     bool IsCellValid(int x, int y)
     {
-        return !(x < 0 || x >= mazeWidth || y < 0 || y >= mazeHeight || maze[x, y].visited);
+        return !(x < 0 || x > mazeWidth - 1 || y < 0 || y > mazeHeight - 1 || maze[x, y].visited);
     }
 
 
@@ -77,7 +77,7 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength || neighbour.y >= mazeHeight)
+                        if (corridorLength >= minCorridorLength || neighbour.y == mazeHeight - 1)
                             break;
                         neighbour.y++;
                     }
@@ -87,7 +87,7 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength || neighbour.y <= 0)
+                        if (corridorLength >= minCorridorLength)
                             break;
                         neighbour.y--;
                     }
@@ -97,7 +97,7 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength || neighbour.x <= 0)
+                        if (corridorLength >= minCorridorLength)
                             break;
                         neighbour.x--;
                     }
@@ -107,14 +107,14 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength || neighbour.x >= mazeWidth)
+                        if (corridorLength >= minCorridorLength || neighbour.x == mazeWidth - 1)
                             break;
                         neighbour.x++;
                     }
                     break;
             }
 
-            if(corridorLength >= minCorridorLength)
+            if ((corridorLength >= minCorridorLength || neighbour.y == mazeHeight - 1 || neighbour.x == mazeWidth - 1) && IsCellValid(neighbour.x, neighbour.y))
             {
                 bestNeighbour = neighbour;
                 break;
@@ -152,7 +152,7 @@ public class MazeGenerator : MonoBehaviour
         }
         else if (primaryCell.y > secondaryCell.y)
         {
-           while (secondaryCell.y < primaryCell.y)
+            while (secondaryCell.y < primaryCell.y)
             {
                 maze[secondaryCell.x, secondaryCell.y].topWall = false;
                 secondaryCell.y++;
@@ -221,6 +221,7 @@ public class MazeCell
 
     public bool topWall;
     public bool leftWall;
+    public bool floor;
 
     public Vector2Int Position
     {
@@ -237,7 +238,6 @@ public class MazeCell
 
         visited = false;
 
-
-        topWall = leftWall = true;
+        topWall = leftWall = floor = true;
     }
 }

@@ -13,8 +13,8 @@ public class MazeRenderer : MonoBehaviour
 
     private void Start()
     {
-        if (!_mazeGenerator) _mazeGenerator = GetComponent<MazeGenerator>();
-        if (!_navMeshSurface) _navMeshSurface = GetComponent<NavMeshSurface>();
+        _mazeGenerator = GetComponent<MazeGenerator>();
+        _navMeshSurface = GetComponent<NavMeshSurface>();
 
         MazeCell[,] maze = _mazeGenerator.GetMaze();
 
@@ -28,6 +28,7 @@ public class MazeRenderer : MonoBehaviour
 
                 bool top = maze[x, y].topWall;
                 bool left = maze[x, y].leftWall;
+                bool ground = maze[x, y].floor;
 
                 bool right = false;
                 bool bottom = false;
@@ -35,7 +36,14 @@ public class MazeRenderer : MonoBehaviour
                 if (x == _mazeGenerator.mazeWidth - 1) right = true;
                 if (y == 0) bottom = true;
 
-                mazeCell.Init(top, bottom, right, left);
+                if (top && left && (x < _mazeGenerator.mazeWidth - 1 && maze[x + 1, y].leftWall) && (y > 0 && maze[x, y - 1].topWall))
+                {
+                    ground = false;
+                    if (x > 0 && !maze[x - 1, y].visited) left = false;
+                    if (y < _mazeGenerator.mazeHeight - 1 && !maze[x, y + 1].visited) top = false;
+                }
+
+                mazeCell.Init(top, bottom, right, left, ground);
             }
         }
 

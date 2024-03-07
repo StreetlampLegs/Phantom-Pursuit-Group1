@@ -232,11 +232,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da7c0f9f6e03514c801f8a53b4f40c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazeWidth: 20
-  mazeHeight: 20
+  mazeWidth: 50
+  mazeHeight: 50
   startX: 0
   startY: 0
-  minCorridorLength: 1
+  minCorridorLength: 3
 --- !u!4 &1296217249
 Transform:
   m_ObjectHideFlags: 0
