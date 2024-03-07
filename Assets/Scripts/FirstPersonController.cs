@@ -5,6 +5,13 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
+	public enum PlayerMovementState
+	{
+		IDLE,
+		WALK,
+		RUN,
+		SPRINT
+	}
 	[RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 	[RequireComponent(typeof(PlayerInput))]
@@ -59,7 +66,6 @@ namespace StarterAssets
 		private float _terminalVelocity = 53.0f;
 
 		// timeout deltatime
-		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
 	
@@ -81,6 +87,16 @@ namespace StarterAssets
 				#else
 				return false;
 				#endif
+			}
+		}
+
+		public PlayerMovementState GetCurrentMovementState
+		{
+			get {
+				if (_speed > MoveSpeed) return PlayerMovementState.SPRINT;
+				else if (_speed > WalkSpeed) return PlayerMovementState.RUN;
+				else if (_speed > 0) return PlayerMovementState.WALK;
+				else return PlayerMovementState.IDLE;
 			}
 		}
 
