@@ -471,11 +471,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9bc96c88a420e64b8fcf0f88942026c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topWall: {fileID: 1270362002099501147}
-  bottomWall: {fileID: 7878436115216435240}
-  rightWall: {fileID: 1304894673056619343}
-  leftWall: {fileID: 787970082952563520}
-  floor: {fileID: 1257933870840747942}
+  _topWall: {fileID: 1270362002099501147}
+  _bottomWall: {fileID: 7878436115216435240}
+  _rightWall: {fileID: 1304894673056619343}
+  _leftWall: {fileID: 787970082952563520}
+  _floor: {fileID: 1257933870840747942}
 --- !u!1 &6277407368949522858
 GameObject:
   m_ObjectHideFlags: 0

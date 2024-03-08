@@ -1,33 +1,50 @@
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
-    [Range(5, 500)]
-    public int mazeWidth = 5, mazeHeight = 5;
-    public int startX, startY;
-    public int minCorridorLength = 1;
-    MazeCell[,] maze;
-
-    Vector2Int currentCell;
-
-    public MazeCell[,] GetMaze()
+    [SerializeField, Range(5, 500)]
+    private int _mazeWidth = 5;
+    public int MazeWidth
     {
-        maze = new MazeCell[mazeWidth, mazeHeight];
+        get => _mazeWidth;
+    }
 
-        for (int x = 0; x < mazeWidth; x++)
+    [SerializeField, Range(5, 500)]
+    private int _mazeHeight = 5;
+    public int MazeHeight
+    {
+        get => _mazeHeight;
+    }
+
+    [SerializeField]
+    private int _startX, _startY;
+    [SerializeField]
+    private int _minCorridorLength = 1;
+
+    private MazeCell[,] _maze;
+    public MazeCell[,] Maze
+    {
+        get => _maze;
+    }
+
+    private Vector2Int _currentCell;
+
+    public MazeCell[,] GenerateMaze()
+    {
+        _maze = new MazeCell[_mazeWidth, _mazeHeight];
+
+        for (int x = 0; x < _mazeWidth; x++)
         {
-            for (int y = 0; y < mazeHeight; y++)
+            for (int y = 0; y < _mazeHeight; y++)
             {
-                maze[x, y] = new MazeCell(x, y);
+                _maze[x, y] = new MazeCell(x, y);
             }
         }
 
-        CarvePath(startX, startY);
+        CarvePath(_startX, _startY);
 
-        return maze;
+        return _maze;
     }
 
     readonly List<Direction> directions = new()
@@ -56,18 +73,18 @@ public class MazeGenerator : MonoBehaviour
 
     bool IsCellValid(int x, int y)
     {
-        return !(x < 0 || x > mazeWidth - 1 || y < 0 || y > mazeHeight - 1 || maze[x, y].visited);
+        return !(x < 0 || x > _mazeWidth - 1 || y < 0 || y > _mazeHeight - 1 || _maze[x, y].Visited);
     }
 
 
     Vector2Int CheckNeighbours()
     {
         List<Direction> randomDir = GetRandomDirections();
-        Vector2Int bestNeighbour = currentCell;
+        Vector2Int bestNeighbour = _currentCell;
 
         for (int i = 0; i < randomDir.Count; i++)
         {
-            Vector2Int neighbour = currentCell;
+            Vector2Int neighbour = _currentCell;
             int corridorLength = 0;
 
             switch (randomDir[i])
@@ -77,7 +94,7 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength || neighbour.y == mazeHeight - 1)
+                        if (corridorLength >= _minCorridorLength)
                             break;
                         neighbour.y++;
                     }
@@ -87,7 +104,7 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength)
+                        if (corridorLength >= _minCorridorLength)
                             break;
                         neighbour.y--;
                     }
@@ -97,7 +114,7 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength)
+                        if (corridorLength >= _minCorridorLength)
                             break;
                         neighbour.x--;
                     }
@@ -107,14 +124,14 @@ public class MazeGenerator : MonoBehaviour
                     while (IsCellValid(neighbour.x, neighbour.y))
                     {
                         corridorLength++;
-                        if (corridorLength >= minCorridorLength || neighbour.x == mazeWidth - 1)
+                        if (corridorLength >= _minCorridorLength)
                             break;
                         neighbour.x++;
                     }
                     break;
             }
 
-            if ((corridorLength >= minCorridorLength || neighbour.y == mazeHeight - 1 || neighbour.x == mazeWidth - 1) && IsCellValid(neighbour.x, neighbour.y))
+            if (corridorLength >= _minCorridorLength)
             {
                 bestNeighbour = neighbour;
                 break;
@@ -126,36 +143,44 @@ public class MazeGenerator : MonoBehaviour
 
     void BreakWalls(Vector2Int primaryCell, Vector2Int secondaryCell)
     {
-        if (primaryCell.x > secondaryCell.x)
+        if (primaryCell.x > secondaryCell.x) //primary is on right of secondary
         {
+            _maze[primaryCell.x, primaryCell.y].Visited = true;
             while (primaryCell.x > secondaryCell.x)
             {
-                maze[primaryCell.x, primaryCell.y].leftWall = false;
+                _maze[primaryCell.x, primaryCell.y].LeftWall = false;
                 primaryCell.x--;
+                _maze[primaryCell.x, primaryCell.y].Visited = true;
             }
         }
-        else if (primaryCell.x < secondaryCell.x)
+        else if (secondaryCell.x > primaryCell.x) //primary is on left of secondary
         {
+            _maze[secondaryCell.x, secondaryCell.y].Visited = true;
             while (secondaryCell.x > primaryCell.x)
             {
-                maze[secondaryCell.x, secondaryCell.y].leftWall = false;
+                _maze[secondaryCell.x, secondaryCell.y].LeftWall = false;
                 secondaryCell.x--;
+                _maze[secondaryCell.x, secondaryCell.y].Visited = true;
             }
         }
-        else if (primaryCell.y < secondaryCell.y)
+        else if (primaryCell.y < secondaryCell.y) //primary is below secondary
         {
+            _maze[primaryCell.x, primaryCell.y].Visited = true;
             while (primaryCell.y < secondaryCell.y)
             {
-                maze[primaryCell.x, primaryCell.y].topWall = false;
+                _maze[primaryCell.x, primaryCell.y].TopWall = false;
                 primaryCell.y++;
+                _maze[primaryCell.x, primaryCell.y].Visited = true;
             }
         }
-        else if (primaryCell.y > secondaryCell.y)
+        else if (secondaryCell.y < primaryCell.y) //primary is above secondary
         {
+            _maze[secondaryCell.x, secondaryCell.y].Visited = true;
             while (secondaryCell.y < primaryCell.y)
             {
-                maze[secondaryCell.x, secondaryCell.y].topWall = false;
+                _maze[secondaryCell.x, secondaryCell.y].TopWall = false;
                 secondaryCell.y++;
+                _maze[secondaryCell.x, secondaryCell.y].Visited = true;
             }
         }
 
@@ -163,13 +188,13 @@ public class MazeGenerator : MonoBehaviour
 
     void CarvePath(int x, int y)
     {
-        if (x < 0 || x > mazeWidth - 1 || y < 0 || y > mazeHeight - 1)
+        if (x < 0 || x > _mazeWidth - 1 || y < 0 || y > _mazeHeight - 1)
         {
             x = y = 0;
             Debug.Log("Invalid start position,, defaulting to 0, 0");
         }
 
-        currentCell = new Vector2Int(x, y);
+        _currentCell = new Vector2Int(x, y);
 
         List<Vector2Int> path = new();
 
@@ -179,28 +204,27 @@ public class MazeGenerator : MonoBehaviour
         {
             Vector2Int nextCell = CheckNeighbours();
 
-            if (nextCell.Equals(currentCell))
+            if (nextCell.Equals(_currentCell))
             {
                 for (int i = path.Count - 1; i >= 0; i--)
                 {
-                    currentCell = path[i];
+                    _currentCell = path[i];
                     path.RemoveAt(i);
                     nextCell = CheckNeighbours();
 
-                    if (!nextCell.Equals(currentCell)) break;
+                    if (!nextCell.Equals(_currentCell)) break;
                 }
 
-                if (nextCell.Equals(currentCell))
+                if (nextCell.Equals(_currentCell))
                 {
                     deadEnd = true;
                 }
             }
             else
             {
-                BreakWalls(currentCell, nextCell);
-                maze[currentCell.x, currentCell.y].visited = true;
-                currentCell = nextCell;
-                path.Add(currentCell);
+                BreakWalls(_currentCell, nextCell);
+                _currentCell = nextCell;
+                path.Add(_currentCell);
             }
         }
     }
@@ -216,28 +240,39 @@ public enum Direction
 
 public class MazeCell
 {
-    public bool visited;
-    public int x, y;
 
-    public bool topWall;
-    public bool leftWall;
-    public bool floor;
-
-    public Vector2Int Position
+    private bool _visited = false;
+    public bool Visited
     {
-        get
-        {
-            return new Vector2Int(x, y);
-        }
+        get => _visited;
+        set => _visited = value;
     }
+
+    private bool _topWall = true;
+    public bool TopWall
+    {
+        get => _topWall;
+        set => _topWall = value;
+    }
+
+    private bool _leftWall = true;
+    public bool LeftWall
+    {
+        get => _leftWall;
+        set => _leftWall = value;
+    }
+
+    private bool _floor = true;
+    public bool Floor
+    {
+        get => _floor;
+        set => _floor = value;
+    }
+
+    public Vector2Int Position { get; }
 
     public MazeCell(int x, int y)
     {
-        this.x = x;
-        this.y = y;
-
-        visited = false;
-
-        topWall = leftWall = floor = true;
+        Position = new Vector2Int(x, y);
     }
 }

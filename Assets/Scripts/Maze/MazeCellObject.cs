@@ -4,18 +4,36 @@ using UnityEngine;
 
 public class MazeCellObject : MonoBehaviour
 {
-    [SerializeField] GameObject topWall;
-    [SerializeField] GameObject bottomWall;
-    [SerializeField] GameObject rightWall;
-    [SerializeField] GameObject leftWall;
-    [SerializeField] GameObject floor;
+    [SerializeField] private GameObject _topWall;
+    [SerializeField] private GameObject _bottomWall;
+    [SerializeField] private GameObject _rightWall;
+    [SerializeField] private GameObject _leftWall;
+    [SerializeField] private GameObject _floor;
 
-    public void Init(bool top, bool bottom, bool right, bool left, bool ground)
+    public struct WallState
     {
-        topWall.SetActive(top);
-        bottomWall.SetActive(bottom);
-        rightWall.SetActive(right);
-        leftWall.SetActive(left);
-        floor.SetActive(ground);
+        public bool Top;
+        public bool Bottom;
+        public bool Right;
+        public bool Left;
+        public bool Ground;
+
+        public WallState(bool top, bool bottom, bool right, bool left, bool ground)
+        {
+            Top = top;
+            Bottom = bottom;
+            Right = right;
+            Left = left;
+            Ground = ground;
+        }
+    }
+
+    public void Init(WallState state)
+    {
+        _topWall.SetActive(state.Top);
+        _bottomWall.SetActive(state.Bottom);
+        _rightWall.SetActive(state.Right);
+        _leftWall.SetActive(state.Left);
+        _floor.SetActive(state.Ground);
     }
 }
