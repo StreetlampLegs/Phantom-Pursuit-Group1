@@ -1,44 +1,63 @@
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using static MazeCellObject;
 
 public class MazeRenderer : MonoBehaviour
 {
-    [SerializeField] GameObject MazeCellPrefab;
-
-    public float CellSize = 1f;
+    [SerializeField] private GameObject _mazeCellPrefab;
+    [SerializeField] private float _cellSize = 1f;
 
     private MazeGenerator _mazeGenerator;
     private NavMeshSurface _navMeshSurface;
 
     private void Start()
     {
-        if (!_mazeGenerator) _mazeGenerator = GetComponent<MazeGenerator>();
-        if (!_navMeshSurface) _navMeshSurface = GetComponent<NavMeshSurface>();
+        InitializeComponents();
+        RenderMaze();
+        _navMeshSurface.BuildNavMesh();
+    }
 
-        MazeCell[,] maze = _mazeGenerator.GetMaze();
+    private void InitializeComponents()
+    {
+        _mazeGenerator = GetComponent<MazeGenerator>();
+        _navMeshSurface = GetComponent<NavMeshSurface>();
+    }
 
-        for (int x = 0; x < _mazeGenerator.mazeWidth; x++)
+    private void RenderMaze()
+    {
+        MazeCell[,] maze = _mazeGenerator.GenerateMaze();
+
+        for (int x = 0; x < _mazeGenerator.MazeWidth; x++)
         {
-            for (int y = 0; y < _mazeGenerator.mazeHeight; y++)
+            for (int y = 0; y < _mazeGenerator.MazeHeight; y++)
             {
-                GameObject newCell = Instantiate(MazeCellPrefab, new Vector3(x * CellSize, 0f, y * CellSize), Quaternion.identity, transform);
-
-                MazeCellObject mazeCell = newCell.GetComponent<MazeCellObject>();
-
-                bool top = maze[x, y].topWall;
-                bool left = maze[x, y].leftWall;
-
-                bool right = false;
-                bool bottom = false;
-
-                if (x == _mazeGenerator.mazeWidth - 1) right = true;
-                if (y == 0) bottom = true;
-
-                mazeCell.Init(top, bottom, right, left);
+                CreateMazeCell(maze, x, y);
             }
         }
+    }
 
-        _navMeshSurface.BuildNavMesh();
+    private void CreateMazeCell(MazeCell[,] maze, int x, int y)
+    {
+        Vector3 position = new Vector3(x * _cellSize, 0f, y * _cellSize);
+        GameObject newCell = Instantiate(_mazeCellPrefab, position, Quaternion.identity, transform);
+        MazeCellObject mazeCell = newCell.GetComponent<MazeCellObject>();
+
+        bool top = maze[x, y].TopWall;
+        bool left = maze[x, y].LeftWall;
+        bool ground = maze[x, y].Floor;
+        bool right = maze[x, y].Visited && x == _mazeGenerator.MazeWidth - 1;
+        bool bottom = maze[x,y].Visited && y == 0;
+
+        if (!maze[x, y].Visited)
+        {
+            ground = false;
+            left = !(x == 0 || !maze[x - 1, y].Visited);
+            top = !(y == _mazeGenerator.MazeHeight - 1 || !maze[x, y + 1].Visited);
+        }
+
+        WallState wallState = new WallState(top, bottom, right, left, ground);
+
+        mazeCell.Init(wallState);
     }
 }

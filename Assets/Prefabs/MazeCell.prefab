@@ -471,10 +471,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9bc96c88a420e64b8fcf0f88942026c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topWall: {fileID: 1270362002099501147}
-  bottomWall: {fileID: 7878436115216435240}
-  rightWall: {fileID: 1304894673056619343}
-  leftWall: {fileID: 787970082952563520}
+  _topWall: {fileID: 1270362002099501147}
+  _bottomWall: {fileID: 7878436115216435240}
+  _rightWall: {fileID: 1304894673056619343}
+  _leftWall: {fileID: 787970082952563520}
+  _floor: {fileID: 1257933870840747942}
 --- !u!1 &6277407368949522858
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,13 +488,13 @@ GameObject:
   - component: {fileID: 3863632503910395106}
   - component: {fileID: 1367553193960279450}
   - component: {fileID: 2857152223762940069}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6093243658933369923
 Transform:
   m_ObjectHideFlags: 0
@@ -537,7 +538,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: -6527670528093515950, guid: d2f0da3998423f44594868ffed55c3e6, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
