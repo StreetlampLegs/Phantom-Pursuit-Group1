@@ -7,6 +7,10 @@ public class MazeRenderer : MonoBehaviour
 {
     [SerializeField] private GameObject _mazeCellPrefab;
     [SerializeField] private float _cellSize = 1f;
+    public float CellSize
+    {
+        get => _cellSize;
+    }
 
     private MazeGenerator _mazeGenerator;
     private NavMeshSurface _navMeshSurface;
@@ -16,6 +20,7 @@ public class MazeRenderer : MonoBehaviour
         InitializeComponents();
         RenderMaze();
         _navMeshSurface.BuildNavMesh();
+        BroadcastMessage("SpawnEntities");
     }
 
     private void InitializeComponents()

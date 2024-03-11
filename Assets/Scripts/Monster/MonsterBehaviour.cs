@@ -38,7 +38,8 @@ public class MonsterBehaviour : MonoBehaviour
     void Start()
     {
         if (!agent) agent = GetComponent<NavMeshAgent>();
-        if (!gameController) gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        if (!PlayerReference) PlayerReference = GameObject.FindWithTag("Player");
+        if (!gameController) gameController = GameObject.Find("Maze").GetComponent<GameController>();
 
         _aggroTimer = AggroSpeedIncreaseTime;
     }
