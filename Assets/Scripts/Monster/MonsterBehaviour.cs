@@ -32,6 +32,7 @@ public class MonsterBehaviour : MonoBehaviour
     NavMeshAgent agent;
     GameController gameController;
 
+    private Vector3 roamTargetPosition;
 
     private float _aggroTimer;
 
@@ -63,6 +64,17 @@ public class MonsterBehaviour : MonoBehaviour
     private void GetRandomRoamingTarget()
     {
         // If the monster cannot find the player, it will try to roam around for a while until the teleport timer happens, then it will teleport and roam around again.
+        if (agent.hasPath && agent.remainingDistance > 5f) return;
+        if (roamTargetPosition == null)
+        {
+            roamTargetPosition = transform.position + Random.insideUnitSphere * 20f;
+        } else if (Vector3.Distance(roamTargetPosition, transform.position) < 5f)
+        {
+            roamTargetPosition = transform.position + Random.insideUnitSphere * 20f;
+        } else
+        {
+            agent.SetDestination(roamTargetPosition);
+        }
     }
 
     private void DoAggro()
