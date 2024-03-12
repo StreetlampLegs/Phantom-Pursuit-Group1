@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 591509257}
   - component: {fileID: 591509256}
   m_Layer: 5
-  m_Name: Start_Image
+  m_Name: Quit_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a3e4c947819b01141b92a02537a5aa86, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 616ea5a85f5696447a4ebc858e55e13e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -728,7 +728,7 @@ MonoBehaviour:
     m_ColorMultiplier: 5
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: dc59f7d084f640e44855b62eaa4066ef, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: 7ecb559a50dad514bb9f4824885dd6a0, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: b94c1582d20d9b5459aef7c69692e551, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: b94c1582d20d9b5459aef7c69692e551, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -745,7 +745,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 768547792}
         m_TargetAssemblyTypeName: mainmenu, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1027,8 +1027,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1348201352}
   - {fileID: 251067456}
+  - {fileID: 1348201352}
   - {fileID: 681550669}
   m_Father: {fileID: 1923499316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1704,7 +1704,7 @@ GameObject:
   - component: {fileID: 1348201354}
   - component: {fileID: 1348201353}
   m_Layer: 5
-  m_Name: Start
+  m_Name: Quit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1727,7 +1727,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 162}
+  m_AnchoredPosition: {x: 40, y: -97}
   m_SizeDelta: {x: 159.7537, y: 18.7905}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1348201353
@@ -1759,9 +1759,9 @@ MonoBehaviour:
     m_ColorMultiplier: 5
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: c31961b950bba4d41b44ac12c49e15ed, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: fad2e8f128d8c7447ba43ae87463fe54, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: fad2e8f128d8c7447ba43ae87463fe54, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: 7d537da56f88a4a4997ddb22b565fddd, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: f4afd709057b0e24a9533b835027d6c7, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: f4afd709057b0e24a9533b835027d6c7, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -1776,7 +1776,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 768547792}
         m_TargetAssemblyTypeName: mainmenu, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
