@@ -16,10 +16,11 @@ public class PlayerActions : MonoBehaviour
 
     public void OnUse()
     {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayer))
+        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit doorHit, MaxUseDistance, UseLayer))
         {
-            if (hit.collider.TryGetComponent(out Door door))
+            if (doorHit.collider.TryGetComponent(out Door door))
             {
+                if (!door.AllowDirectInteraction) return;
                 if (door.IsOpen)
                 {
                     door.Close();
@@ -31,12 +32,21 @@ public class PlayerActions : MonoBehaviour
 
             }
         }
+
+        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit buttonHit, MaxUseDistance, UseLayer))
+        {
+            if (buttonHit.collider.TryGetComponent(out DoorButton button))
+            {
+                button.OnUse();
+            }
+        }
     }
 
     private void Update()
     {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayer) && hit.collider.TryGetComponent<Door>(out Door door))
+        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit doorHit, MaxUseDistance, UseLayer) && doorHit.collider.TryGetComponent<Door>(out Door door))
         {
+            if (!door.AllowDirectInteraction) return;
             if (door.IsOpen)
             {
                 UseText.SetText("Close \"E\"");
@@ -46,8 +56,20 @@ public class PlayerActions : MonoBehaviour
                 UseText.SetText("Open \"E\"");
             }
             UseText.gameObject.SetActive(true);
-            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.5f;
-            UseText.transform.rotation = Quaternion.LookRotation((hit.point - Camera.position).normalized);
+            UseText.transform.position = doorHit.point - (doorHit.point - Camera.position).normalized * 0.5f;
+            UseText.transform.rotation = Quaternion.LookRotation((doorHit.point - Camera.position).normalized);
+        }
+        else
+        {
+            UseText.gameObject.SetActive(false);
+        }
+
+        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit buttonHit, MaxUseDistance, UseLayer) && buttonHit.collider.TryGetComponent<DoorButton>(out DoorButton button))
+        {
+            UseText.SetText("Use \"E\"");
+            UseText.gameObject.SetActive(true);
+            UseText.transform.position = buttonHit.point - (buttonHit.point - Camera.position).normalized * 0.5f;
+            UseText.transform.rotation = Quaternion.LookRotation((buttonHit.point - Camera.position).normalized);
         }
         else
         {
