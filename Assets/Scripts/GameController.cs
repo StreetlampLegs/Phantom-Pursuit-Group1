@@ -1,40 +1,52 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject monster;
+    [SerializeField]
+    private GameObject _player;
+    [SerializeField]
+    private GameObject _monster;
+    [SerializeField]
+    private bool _spawnMonster = true;
 
-    private MazeRenderer _mazeRenderer;
-    private MazeGenerator _mazeGenerator;
 
-    void Awake()
+    private NavMeshSurface _navMeshSurface;
+
+
+    private void Awake()
     {
-        InitializeComponents();
+        _navMeshSurface = GetComponent<NavMeshSurface>();
     }
 
-    void InitializeComponents()
+    private void Start()
     {
-        _mazeRenderer = GetComponent<MazeRenderer>();
-        _mazeGenerator = GetComponent<MazeGenerator>();
+        _navMeshSurface.BuildNavMesh();
+        SpawnEntities();
     }
 
     void SpawnEntities()
     {
         // Spawn player at 0, 0
-        if (player)
+        if (_player)
         {
             NavMesh.SamplePosition(new Vector3(0, 0, 0), out NavMeshHit playerSpawnPosition, 1f, NavMesh.AllAreas);
-            Instantiate(player, playerSpawnPosition.position, Quaternion.identity);
+            Instantiate(_player, playerSpawnPosition.position, Quaternion.identity);
         }
 
-        // Spawn monster in the middle of the maze
+        if (_spawnMonster && _monster)
+        {
+            SpawnMonster();
+        }
+    }
 
-        Vector3 mazeCenter = new Vector3(_mazeRenderer.CellSize * _mazeGenerator.MazeWidth / 2, 0, _mazeRenderer.CellSize * _mazeGenerator.MazeHeight / 2);
+    private void SpawnMonster()
+    {
+        Vector3 mazeCenter = new Vector3(10, 0, 10);
 
-        Vector3 monsterSpawnPosition = GetNearestNavMeshPosition(mazeCenter, _mazeRenderer.CellSize * 4);
-        Instantiate(monster, monsterSpawnPosition, Quaternion.identity);
+        Vector3 monsterSpawnPosition = GetNearestNavMeshPosition(mazeCenter, 12);
+        Instantiate(_monster, monsterSpawnPosition, Quaternion.identity);
     }
 
     Vector3 GetNearestNavMeshPosition(Vector3 position, float radius)
