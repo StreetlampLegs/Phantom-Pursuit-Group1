@@ -26,6 +26,12 @@ public class Door : MonoBehaviour
     [SerializeField]
     private float _slideAmount = 1.9f;
 
+    [Header("Auto Open Config")]
+    [SerializeField]
+    private bool _autoOpenAfterClose = true; // Whether the door should automatically open after being closed
+    [SerializeField]
+    private float _autoOpenDelay = 5f; // Delay in seconds before the door opens automatically after closing
+
     private Vector3 _startRotation;
     private Vector3 _startPosition;
     private Vector3 _openPosition;
@@ -90,7 +96,18 @@ public class Door : MonoBehaviour
             }
 
             _animationCoroutine = _isRotatingDoor ? StartCoroutine(DoRotationClose()) : StartCoroutine(DoSlidingClose());
+
+            if (_autoOpenAfterClose)
+            {
+                StartCoroutine(AutoOpenCountdown(_autoOpenDelay));
+            }
         }
+    }
+
+    private IEnumerator AutoOpenCountdown(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Open(Vector3.zero);
     }
 
     private IEnumerator DoRotationClose()

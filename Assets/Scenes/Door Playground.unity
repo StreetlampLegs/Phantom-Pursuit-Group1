@@ -5554,6 +5554,8 @@ MonoBehaviour:
   _forwardDirection: 0
   _slideDirection: {x: -1, y: 0, z: 0}
   _slideAmount: 1.9
+  _autoOpenAfterClose: 1
+  _autoOpenDelay: 5
 --- !u!1 &1184394024
 GameObject:
   m_ObjectHideFlags: 0
@@ -5596,6 +5598,8 @@ MonoBehaviour:
   _forwardDirection: 0
   _slideDirection: {x: -1, y: 0, z: 0}
   _slideAmount: 1.9
+  _autoOpenAfterClose: 1
+  _autoOpenDelay: 5
 --- !u!64 &1184394026
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6846,6 +6850,8 @@ MonoBehaviour:
   _forwardDirection: 0
   _slideDirection: {x: 0, y: 1, z: 0}
   _slideAmount: 2.7
+  _autoOpenAfterClose: 1
+  _autoOpenDelay: 2
 --- !u!64 &1426536596
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7655,6 +7661,8 @@ MonoBehaviour:
   _forwardDirection: 1.5
   _slideDirection: {x: -1, y: 0, z: 0}
   _slideAmount: 1.9
+  _autoOpenAfterClose: 1
+  _autoOpenDelay: 5
 --- !u!64 &1648056126
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8931,6 +8939,8 @@ MonoBehaviour:
   _forwardDirection: 0
   _slideDirection: {x: -1, y: 0, z: 0}
   _slideAmount: 1.9
+  _autoOpenAfterClose: 1
+  _autoOpenDelay: 5
 --- !u!43 &1953882124
 Mesh:
   m_ObjectHideFlags: 0
