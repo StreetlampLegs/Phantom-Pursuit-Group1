@@ -106,7 +106,7 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
                 _animator.SetBool("run", true);
-                _PlayerSpeed = 4f;
+                _PlayerSpeed = 4f;  
             }
         }
         else
