@@ -57,6 +57,7 @@ public class MonsterBehaviour : MonoBehaviour
             // Initiate the "fuck around with the player sequence" before actually eating the player.
             
             gameController.LoseGame();
+            Debug.Log("game lost");
         }
     }
 

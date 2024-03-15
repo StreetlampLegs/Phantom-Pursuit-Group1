@@ -56,6 +56,9 @@ namespace StarterAssets
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
 
+		//stamina bar
+		[HideInInspector] public StaminaController _staminaController;
+
 		// cinemachine
 		private float _cinemachineTargetPitch;
 
@@ -75,8 +78,9 @@ namespace StarterAssets
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
+        public Animator _animator;
 
-		private const float _threshold = 0.01f;
+        private const float _threshold = 0.01f;
 
 		private bool IsCurrentDeviceMouse
 		{
@@ -110,7 +114,9 @@ namespace StarterAssets
 		}
 
 		private void Start()
+
 		{
+			_staminaController = GetComponent<StaminaController>();
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -123,11 +129,17 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 		}
 
+		public void SetRunSpeed(float speed)
+		{
+            SprintSpeed = speed;
+		}
+
 		private void Update()
 		{
 			DoGravity();
 			GroundedCheck();
 			Move();
+			Animate();
 		}
 
 		private void LateUpdate()
@@ -164,11 +176,19 @@ namespace StarterAssets
 			}
 		}
 
+		private void Animate()
+		{
+            _animator.SetFloat("SpeedX", _controller.velocity.x, 0.07f, Time.deltaTime);
+            _animator.SetFloat("SpeedZ", _controller.velocity.z, 0.07f, Time.deltaTime);
+
+            _animator.SetBool("Run", GetCurrentMovementState == PlayerMovementState.RUN);    
+		}
+
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			
-			float targetSpeed = _input.walk ? WalkSpeed : _input.sprint ? SprintSpeed : MoveSpeed;
+			float targetSpeed = _input.sprint ? MoveSpeed : WalkSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
