@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Phantom Pursuit/Scenes/Menu.unity
+    guid: 428c4f851a63b4e4aaf40c1c64068e97
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 19304588c9308b14f8459f5a0f405834
+  - enabled: 1
     path: Assets/Scenes/Playground.unity
     guid: 707acc8dffb72b144bb1ffbe1c965f3d
   m_configObjects:
