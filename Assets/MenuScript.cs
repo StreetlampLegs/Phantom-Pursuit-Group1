@@ -46,7 +46,7 @@ public class MenuScript : MonoBehaviour
         Mixer.SetActive(true);
         PauseBackground.SetActive(true);
         Time.timeScale = 0.0f;
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
         //firstPersonController.SetActive(false);
 
     }
@@ -59,7 +59,7 @@ public class MenuScript : MonoBehaviour
         Mixer.SetActive(false);
         PauseBackground.SetActive(false);
         Time.timeScale = 1f;
-       // Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
         //firstPersonController.SetActive(true);
     }
     void Back()
