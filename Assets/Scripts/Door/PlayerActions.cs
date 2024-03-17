@@ -38,6 +38,14 @@ public class PlayerActions : MonoBehaviour
                 button.OnUse();
             }
         }
+
+        if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit switchHit, _maxUseDistance, _useLayer))
+        {
+            if (switchHit.collider.TryGetComponent(out Switch switchObject))
+            {
+                switchObject.Activate();
+            }
+        }
     }
 
     private void Update()
@@ -63,6 +71,20 @@ public class PlayerActions : MonoBehaviour
             _useText.gameObject.SetActive(true);
             _useText.transform.position = buttonHit.point - (buttonHit.point - _camera.position).normalized * 0.5f;
             _useText.transform.rotation = Quaternion.LookRotation((buttonHit.point - _camera.position).normalized);
+        }
+        else if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit switchHit, _maxUseDistance, _useLayer) && switchHit.collider.TryGetComponent<Switch>(out Switch switchObject))
+        {
+            if (!switchObject.IsActivated)
+            {
+                _useText.SetText("Use \"E\"");
+            }
+            else
+            {
+                _useText.SetText("Activated");
+            }
+            _useText.gameObject.SetActive(true);
+            _useText.transform.position = switchHit.point - (switchHit.point - _camera.position).normalized * 0.5f;
+            _useText.transform.rotation = Quaternion.LookRotation((switchHit.point - _camera.position).normalized);
         }
         else
         {
