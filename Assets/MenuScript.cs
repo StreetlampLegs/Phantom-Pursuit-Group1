@@ -15,7 +15,7 @@ public class MenuScript : MonoBehaviour
 
     private bool PauseMenuIsShowing = false;
     private bool OptionMenuIsShowing = false;
-    private bool MixerIsShowing = false;
+   // private bool MixerIsShowing = false;
 
     void Update()
     {
@@ -46,7 +46,7 @@ public class MenuScript : MonoBehaviour
         Mixer.SetActive(true);
         PauseBackground.SetActive(true);
         Time.timeScale = 0.0f;
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         //firstPersonController.SetActive(false);
 
     }
@@ -59,7 +59,7 @@ public class MenuScript : MonoBehaviour
         Mixer.SetActive(false);
         PauseBackground.SetActive(false);
         Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.None;
+       // Cursor.lockState = CursorLockMode.None;
         //firstPersonController.SetActive(true);
     }
     void Back()
