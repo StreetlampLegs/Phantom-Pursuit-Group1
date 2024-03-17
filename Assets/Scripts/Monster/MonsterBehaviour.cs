@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using StarterAssets;
+using UnityEngine.SceneManagement;
 
 public class MonsterBehaviour : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class MonsterBehaviour : MonoBehaviour
     {
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!PlayerReference) PlayerReference = GameObject.FindWithTag("Player");
-        if (!gameController) gameController = GameObject.Find("Maze").GetComponent<GameController>();
+        if (!gameController) gameController = GameObject.Find("GameController").GetComponent<GameController>();
 
         _aggroTimer = AggroSpeedIncreaseTime;
     }
@@ -58,6 +59,8 @@ public class MonsterBehaviour : MonoBehaviour
             // Initiate the "fuck around with the player sequence" before actually eating the player.
             
             gameController.LoseGame();
+            SceneManager.LoadScene(4);
+            Debug.Log("game lost");
         }
     }
 

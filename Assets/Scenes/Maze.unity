@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731716, g: 0.13414738, b: 0.121078566, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da7c0f9f6e03514c801f8a53b4f40c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mazeWidth: 20
-  _mazeHeight: 20
+  _mazeWidth: 278
+  _mazeHeight: 249
   _startX: 0
   _startY: 0
   _minCorridorLength: 3
@@ -233,8 +233,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86901af2b320ba949b7a711777e1cb6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 7094977340588366727, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
-  monster: {fileID: 680051535355169912, guid: b100b035d3309d847a40fa3cd60fd5f9, type: 3}
+  _player: {fileID: 7094977340588366727, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
+  _monster: {fileID: 680051535355169912, guid: b100b035d3309d847a40fa3cd60fd5f9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

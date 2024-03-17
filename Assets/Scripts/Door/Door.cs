@@ -1,149 +1,153 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Door : MonoBehaviour
 {
-    public bool IsOpen = false;
     [SerializeField]
-    private bool isRotatingDoor = true;
+    private bool _isOpen = false;
+    public bool IsOpen { get => _isOpen; set => _isOpen = value; }
     [SerializeField]
-    private float Speed = 1f;
+    private bool _allowDirectInteraction = true;
+    public bool AllowDirectInteraction { get => _allowDirectInteraction; set => _allowDirectInteraction = value; }
+    [SerializeField]
+    private bool _isRotatingDoor = true;
+    [SerializeField]
+    private float _speed = 1f;
+
     [Header("Rotation Config")]
     [SerializeField]
-    private float RotationAmount = 90f;
+    private float _rotationAmount = 90f;
     [SerializeField]
-    private float ForwardDirection = 0;
+    private float _forwardDirection = 0;
+
     [Header("Sliding Configs")]
     [SerializeField]
-    private Vector3 SlideDirection = Vector3.left;
+    private Vector3 _slideDirection = Vector3.left;
     [SerializeField]
-    private float SlideAmount = 1.9f;
+    private float _slideAmount = 1.9f;
 
-    private Vector3 StartRotation;
-    private Vector3 StartPosition;
-    private Vector3 Forward;
+    [Header("Auto Open Config")]
+    [SerializeField]
+    private bool _autoOpenAfterClose = true; // Whether the door should automatically open after being closed
+    [SerializeField]
+    private float _autoOpenDelay = 5f; // Delay in seconds before the door opens automatically after closing
 
-    private Coroutine AnimationCoroutine;
+    private Vector3 _startRotation;
+    private Vector3 _startPosition;
+    private Vector3 _openPosition;
+    private Vector3 _forward;
+
+    private Coroutine _animationCoroutine;
 
     private void Awake()
     {
-        StartRotation = transform.rotation.eulerAngles;
-        Forward = transform.forward;
-        StartPosition = transform.position;
+        _startRotation = transform.rotation.eulerAngles;
+        _forward = transform.forward;
+        _startPosition = transform.position;
+        _openPosition = _startPosition + _slideAmount * _slideDirection;
+
+        if (IsOpen)
+        {
+            transform.position = _openPosition;
+        }
     }
 
-    public void Open(Vector3 UserPosition)
+    public void Open(Vector3 userPosition)
     {
         if (!IsOpen)
         {
-            if (AnimationCoroutine != null)
+            if (_animationCoroutine != null)
             {
-                StopCoroutine(AnimationCoroutine);
+                StopCoroutine(_animationCoroutine);
             }
 
-            if(isRotatingDoor)
-            {
-                float dot = Vector3.Dot(Forward, (UserPosition - transform.position).normalized);
-                Debug.Log($"Dot: {dot:N3}");
-                AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
-            }
-            else
-            {
-                AnimationCoroutine = StartCoroutine(DoSlidingOpen());
-            }
+            _animationCoroutine = _isRotatingDoor ?
+                StartCoroutine(DoRotationOpen(Vector3.Dot(_forward, (userPosition - transform.position).normalized))) :
+                StartCoroutine(DoSlidingOpen());
         }
     }
 
-    private IEnumerator DoRotationOpen(float ForwardAmount)
+    private IEnumerator DoRotationOpen(float forwardAmount)
     {
         Quaternion startRotation = transform.rotation;
-        Quaternion endRotation;
-
-        if(ForwardAmount > ForwardDirection)
-        {
-            endRotation = Quaternion.Euler(new Vector3(0, StartRotation.y + RotationAmount, 0));
-        }
-        else
-        {
-            endRotation = Quaternion.Euler(new Vector3(0, StartRotation.y - RotationAmount, 0));
-        }
+        Quaternion endRotation = Quaternion.Euler(new Vector3(0, _startRotation.y + (forwardAmount > _forwardDirection ? _rotationAmount : -_rotationAmount), 0));
 
         IsOpen = true;
 
-        float time = 0;
-        while (time < 1)
-        {
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
-            yield return null;
-            time += Time.deltaTime * Speed;
-        }
+        yield return RotateDoor(startRotation, endRotation);
     }
 
     private IEnumerator DoSlidingOpen()
     {
-        Vector3 endPosition = StartPosition + SlideAmount * SlideDirection;
-        Vector3 startPosition = transform.position;
+        Vector3 endPosition = _startPosition + _slideAmount * _slideDirection;
 
-        float time = 0;
         IsOpen = true;
-        while (time < 1)
-        {
-            transform.position = Vector3.Lerp(startPosition, endPosition, time);
-            yield return null;
-            time += Time.deltaTime * Speed;
-        }
+
+        yield return MoveDoor(transform.position, endPosition);
     }
 
     public void Close()
     {
         if (IsOpen)
         {
-            if (AnimationCoroutine != null)
+            if (_animationCoroutine != null)
             {
-                StopCoroutine(AnimationCoroutine);
+                StopCoroutine(_animationCoroutine);
             }
 
-            if (isRotatingDoor)
+            _animationCoroutine = _isRotatingDoor ? StartCoroutine(DoRotationClose()) : StartCoroutine(DoSlidingClose());
+
+            if (_autoOpenAfterClose)
             {
-                AnimationCoroutine = StartCoroutine(DoRotationClose());
-            }
-            else
-            {
-                AnimationCoroutine = StartCoroutine(DoSlidingClose());
+                StartCoroutine(AutoOpenCountdown(_autoOpenDelay));
             }
         }
+    }
+
+    private IEnumerator AutoOpenCountdown(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Open(Vector3.zero);
     }
 
     private IEnumerator DoRotationClose()
     {
         Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(StartRotation);
+        Quaternion endRotation = Quaternion.Euler(_startRotation);
 
         IsOpen = false;
 
+        yield return RotateDoor(startRotation, endRotation);
+    }
+
+    private IEnumerator DoSlidingClose()
+    {
+        Vector3 endPosition = _startPosition;
+
+        IsOpen = false;
+
+        yield return MoveDoor(transform.position, endPosition);
+    }
+
+    private IEnumerator RotateDoor(Quaternion startRotation, Quaternion endRotation)
+    {
         float time = 0;
         while (time < 1)
         {
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
             yield return null;
-            time += Time.deltaTime * Speed;
+            time += Time.deltaTime * _speed;
         }
     }
 
-    private IEnumerator DoSlidingClose()
+    private IEnumerator MoveDoor(Vector3 startPosition, Vector3 endPosition)
     {
-        Vector3 endPosition = StartPosition;
-        Vector3 startPosition = transform.position;
-
         float time = 0;
-        IsOpen = false;
         while (time < 1)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, time);
             yield return null;
-            time += Time.deltaTime * Speed;
+            time += Time.deltaTime * _speed;
         }
     }
 }
