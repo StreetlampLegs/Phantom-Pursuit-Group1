@@ -56,9 +56,6 @@ public class MonsterBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // Initiate the "fuck around with the player sequence" before actually eating the player.
-            
-            gameController.LoseGame();
             SceneManager.LoadScene(4);
             Debug.Log("game lost");
         }
