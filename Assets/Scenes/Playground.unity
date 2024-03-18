@@ -11395,6 +11395,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster
       objectReference: {fileID: 0}
+    - target: {fileID: 1843021376066828980, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: m_Speed
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
         type: 3}
       propertyPath: PlayerReference
@@ -11410,6 +11415,11 @@ PrefabInstance:
       propertyPath: MonsterAggroScreamSound
       value: 
       objectReference: {fileID: 8300000, guid: 331571f1a04faf84da3701ae1fe64bfb, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: AggroSpeedIncreaseIncrement
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
         type: 3}
       propertyPath: MonsterFootstepSounds.Array.size
@@ -11515,6 +11525,16 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 472387b0d5a86d14c8aebf44793b3d6a, type: 3}
+    - target: {fileID: 8351975844904125583, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631568967589558937, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
