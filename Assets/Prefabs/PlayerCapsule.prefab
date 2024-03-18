@@ -42,7 +42,8 @@ AudioSource:
   m_GameObject: {fileID: 777276681068698312}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7383687380025941480, guid: 64ca42f74bc98934c92f8300481f24d0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -270,7 +271,8 @@ AudioSource:
   m_GameObject: {fileID: 5732989987213370785}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7383687380025941480, guid: 64ca42f74bc98934c92f8300481f24d0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -371,6 +373,7 @@ GameObject:
   - component: {fileID: 5420857361349278248}
   - component: {fileID: 8616685848737228376}
   - component: {fileID: 3799240991859531331}
+  - component: {fileID: 3416568066682583685}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -589,6 +592,18 @@ MonoBehaviour:
   _useLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3416568066682583685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e701f5918054644cbd6c3e93be57c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1395341450720448138
 PrefabInstance:
   m_ObjectHideFlags: 0

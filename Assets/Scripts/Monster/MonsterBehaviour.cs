@@ -48,9 +48,14 @@ public class MonsterBehaviour : MonoBehaviour
     GameController gameController;
     AudioSource audioPlayer;
 
+    Collider col;
+
     private Vector3 roamTargetPosition = Vector3.zero;
 
     private float _aggroTimer;
+
+    private float _footstepTimer;
+    private float _footstepInterval = 0.4f;
 
     [Space(10), Header("Debug")]
     [SerializeField]
@@ -62,6 +67,7 @@ public class MonsterBehaviour : MonoBehaviour
         if (!PlayerReference) PlayerReference = GameObject.FindWithTag("Player");
         if (!gameController) gameController = GameObject.Find("GameController").GetComponent<GameController>();
         if (!audioPlayer) audioPlayer = GetComponent<AudioSource>();
+        col = GetComponent<Collider>();
 
         _aggroTimer = AggroSpeedIncreaseTime;
     }
@@ -69,14 +75,16 @@ public class MonsterBehaviour : MonoBehaviour
     public void ActivateAI()
     {
         if (isActive) return;
+
         StartCoroutine(DoWakeUpSequence());
     }
 
     IEnumerator DoWakeUpSequence()
     {
-        if (MonsterAwakeSound) audioPlayer.PlayOneShot(MonsterAwakeSound);
+        audioPlayer.PlayOneShot(MonsterAwakeSound);
         yield return new WaitForSeconds(wakeupTime);
         isActive = true;
+        col.enabled = true;
     }
 
     void Update()
@@ -85,6 +93,16 @@ public class MonsterBehaviour : MonoBehaviour
         {
             DoAggro();
             ListenToPlayerMovement();
+
+            if (agent.velocity.magnitude >= 0.5f)
+            {
+                _footstepTimer += Time.deltaTime;
+                if (_footstepTimer >= _footstepInterval)
+                {
+                    _footstepTimer %= _footstepInterval;
+                    PlayMovementFootstepSound();
+                }
+            }
         }
     }
 
@@ -150,6 +168,15 @@ public class MonsterBehaviour : MonoBehaviour
         {
             GetRandomRoamingTarget();
         }
+    }
+
+    void PlayMovementFootstepSound()
+    {
+        AudioClip clip;
+
+        clip = MonsterFootstepSounds[Random.Range(0, MonsterFootstepSounds.Count)];
+
+        audioPlayer.PlayOneShot(clip);
     }
 
     private void OnDrawGizmosSelected()
