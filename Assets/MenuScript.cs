@@ -11,8 +11,6 @@ public class MenuScript : MonoBehaviour
     public GameObject PauseBackground;
     public StarterAssets.FirstPersonController firstPersonController;
 
-
-
     private bool PauseMenuIsShowing = false;
     private bool OptionMenuIsShowing = false;
    // private bool MixerIsShowing = false;

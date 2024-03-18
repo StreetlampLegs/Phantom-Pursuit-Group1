@@ -10837,9 +10837,59 @@ PrefabInstance:
       objectReference: {fileID: 1099062690}
     - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
         type: 3}
+      propertyPath: MonsterAwakeSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 331571f1a04faf84da3701ae1fe64bfb, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
       propertyPath: MonsterAggroScreamSound
       value: 
       objectReference: {fileID: 8300000, guid: 331571f1a04faf84da3701ae1fe64bfb, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 472387b0d5a86d14c8aebf44793b3d6a, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 12ca5f02b1f9be94db9079137f8cd230, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: b13a216088dd5964ea16d246b9cea064, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2cbc2f18b55494947b6dc93ff5f7d0af, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 472387b0d5a86d14c8aebf44793b3d6a, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 12ca5f02b1f9be94db9079137f8cd230, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: b13a216088dd5964ea16d246b9cea064, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2cbc2f18b55494947b6dc93ff5f7d0af, type: 3}
     - target: {fileID: 5487290366103873272, guid: b100b035d3309d847a40fa3cd60fd5f9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10890,6 +10940,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7289211568164112447, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351975844904125583, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 472387b0d5a86d14c8aebf44793b3d6a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
