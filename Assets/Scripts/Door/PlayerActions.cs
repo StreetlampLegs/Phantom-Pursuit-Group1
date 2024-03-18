@@ -27,7 +27,10 @@ public class PlayerActions : MonoBehaviour
                 {
                     door.Open(transform.position);
                 }
-
+            }
+            else if (doorHit.collider.TryGetComponent(out JournalBehaviour journal))
+            {
+                journal.ReadJournal();
             }
         }
 
@@ -82,6 +85,14 @@ public class PlayerActions : MonoBehaviour
             {
                 _useText.SetText("Activated");
             }
+            _useText.gameObject.SetActive(true);
+            _useText.transform.position = switchHit.point - (switchHit.point - _camera.position).normalized * 0.5f;
+            _useText.transform.rotation = Quaternion.LookRotation((switchHit.point - _camera.position).normalized);
+        }
+        else if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit journalHit, _maxUseDistance, _useLayer) && journalHit.collider.TryGetComponent<JournalBehaviour>(out JournalBehaviour journal))
+        {
+            _useText.SetText("Use \"E\"");
+
             _useText.gameObject.SetActive(true);
             _useText.transform.position = switchHit.point - (switchHit.point - _camera.position).normalized * 0.5f;
             _useText.transform.rotation = Quaternion.LookRotation((switchHit.point - _camera.position).normalized);
