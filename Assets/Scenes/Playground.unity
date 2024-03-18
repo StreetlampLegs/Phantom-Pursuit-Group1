@@ -5209,7 +5209,7 @@ MonoBehaviour:
   OptionMenu: {fileID: 774300104}
   Mixer: {fileID: 396141932}
   PauseBackground: {fileID: 1157094180}
-  firstPersonController: {fileID: 135756641613574986}
+  firstPersonController: {fileID: 0}
 --- !u!114 &1081531062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5307,7 +5307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e1667b8a47c0a4692c178e763b770c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstPersonController: {fileID: 135756641613574986}
+  firstPersonController: {fileID: 0}
   menuScript: {fileID: 1081531061}
 --- !u!114 &1081531067
 MonoBehaviour:
@@ -7498,6 +7498,31 @@ PrefabInstance:
       propertyPath: PlayerReference
       value: 
       objectReference: {fileID: 1099062690}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterAwakeSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 517c3d34173e6c74aaf620a2f55cb082, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6b4c3103721a813449bc1fc213f818f0, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6b4c3103721a813449bc1fc213f818f0, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6b4c3103721a813449bc1fc213f818f0, type: 3}
+    - target: {fileID: 1849861940102525017, guid: b100b035d3309d847a40fa3cd60fd5f9,
+        type: 3}
+      propertyPath: MonsterFootstepSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6b4c3103721a813449bc1fc213f818f0, type: 3}
     - target: {fileID: 5487290366103873272, guid: b100b035d3309d847a40fa3cd60fd5f9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11721,16 +11746,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &135756641613574986 stripped
+--- !u!114 &135756641613574976
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2709555856371896783, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
-    type: 3}
-  m_PrefabInstance: {fileID: 5393215579111688471}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099062690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe8c9ad867860d439671c6371bc1e31, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e701f5918054644cbd6c3e93be57c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5393215579111688471
@@ -11818,10 +11843,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2709555856371896783, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 135756641613574976}
   m_SourcePrefab: {fileID: 100100000, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
 --- !u!1001 &7288094137546172433
 PrefabInstance:
