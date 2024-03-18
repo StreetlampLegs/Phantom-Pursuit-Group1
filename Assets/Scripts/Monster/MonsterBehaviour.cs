@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using StarterAssets;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using JetBrains.Annotations;
+using System.Collections;
 
 public class MonsterBehaviour : MonoBehaviour
 {
@@ -27,38 +30,68 @@ public class MonsterBehaviour : MonoBehaviour
 
 
     [Space(10)]
+    [Header("Monster Other Behaviour")]
+    [Tooltip("Time it takes for the monster to wake up after flicking the first switch")]
+    public float wakeupTime = 5f;
+
+    [Space(10)]
+    [Header("Monster Audio")]
+    public AudioClip MonsterAwakeSound;
+    public AudioClip MonsterAggroScreamSound;
+    public List<AudioClip> MonsterFootstepSounds;
+
+    [Space(10)]
     [Header("Object References")]
     public GameObject PlayerReference;
 
     NavMeshAgent agent;
     GameController gameController;
+    AudioSource audioPlayer;
 
-    private Vector3 roamTargetPosition;
+    private Vector3 roamTargetPosition = Vector3.zero;
 
     private float _aggroTimer;
+
+    [Space(10), Header("Debug")]
+    [SerializeField]
+    bool isActive = false;
 
     void Start()
     {
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!PlayerReference) PlayerReference = GameObject.FindWithTag("Player");
         if (!gameController) gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        if (!audioPlayer) audioPlayer = GetComponent<AudioSource>();
 
         _aggroTimer = AggroSpeedIncreaseTime;
     }
 
+    public void ActivateAI()
+    {
+        if (isActive) return;
+        StartCoroutine(DoWakeUpSequence());
+    }
+
+    IEnumerator DoWakeUpSequence()
+    {
+        if (MonsterAwakeSound) audioPlayer.PlayOneShot(MonsterAwakeSound);
+        yield return new WaitForSeconds(wakeupTime);
+        isActive = true;
+    }
+
     void Update()
     {
-        DoAggro();
-        ListenToPlayerMovement();
+        if (isActive)
+        {
+            DoAggro();
+            ListenToPlayerMovement();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            // Initiate the "fuck around with the player sequence" before actually eating the player.
-            
-            gameController.LoseGame();
             SceneManager.LoadScene(4);
             Debug.Log("game lost");
         }
@@ -67,17 +100,13 @@ public class MonsterBehaviour : MonoBehaviour
     private void GetRandomRoamingTarget()
     {
         // If the monster cannot find the player, it will try to roam around for a while until the teleport timer happens, then it will teleport and roam around again.
-        if (agent.hasPath && agent.remainingDistance > 5f) return;
-        if (roamTargetPosition == null)
+        if (agent.hasPath && agent.destination != null && agent.remainingDistance > 5f)
         {
-            roamTargetPosition = transform.position + Random.insideUnitSphere * 20f;
-        } else if (Vector3.Distance(roamTargetPosition, transform.position) < 5f)
-        {
-            roamTargetPosition = transform.position + Random.insideUnitSphere * 20f;
-        } else
-        {
-            agent.SetDestination(roamTargetPosition);
+            return;
         }
+
+        roamTargetPosition = transform.position + Random.insideUnitSphere * 20f;
+        agent.SetDestination(roamTargetPosition);
     }
 
     private void DoAggro()
@@ -85,6 +114,10 @@ public class MonsterBehaviour : MonoBehaviour
         if (_aggroTimer <= 0)
         {
             Debug.Log("Aggroed");
+            if (MonsterAggroScreamSound)
+            {
+                audioPlayer.PlayOneShot(MonsterAggroScreamSound);
+            }
             agent.speed += AggroSpeedIncreaseIncrement;
             _aggroTimer = AggroSpeedIncreaseTime;
         }

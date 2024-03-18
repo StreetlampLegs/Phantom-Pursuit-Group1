@@ -4,71 +4,14 @@ using UnityEngine.AI;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _player;
-    [SerializeField]
-    private GameObject _monster;
-    [SerializeField]
-    private bool _spawnMonster = true;
 
+    public GameObject SteelDoorReference;
 
-    private NavMeshSurface _navMeshSurface;
+    public int doorCount;
 
+    int maxSwitchesRequired = 6;
 
-    private void Awake()
-    {
-        _navMeshSurface = GetComponent<NavMeshSurface>();
-    }
-
-    private void Start()
-    {
-        _navMeshSurface.BuildNavMesh();
-        SpawnEntities();
-    }
-
-    void SpawnEntities()
-    {
-        // Spawn player at 0, 0
-        if (_player)
-        {
-            NavMesh.SamplePosition(new Vector3(0, 0, 0), out NavMeshHit playerSpawnPosition, 1f, NavMesh.AllAreas);
-            Instantiate(_player, playerSpawnPosition.position, Quaternion.identity);
-        }
-
-        if (_spawnMonster && _monster)
-        {
-            SpawnMonster();
-        }
-    }
-
-    private void SpawnMonster()
-    {
-        Vector3 mazeCenter = new Vector3(10, 0, 10);
-
-        Vector3 monsterSpawnPosition = GetNearestNavMeshPosition(mazeCenter, 12);
-        Instantiate(_monster, monsterSpawnPosition, Quaternion.identity);
-    }
-
-    Vector3 GetNearestNavMeshPosition(Vector3 position, float radius)
-    {
-        Vector3 randomPosition;
-        while (true)
-        {
-            randomPosition = Random.insideUnitSphere * radius;
-            if (NavMesh.SamplePosition(position + randomPosition, out NavMeshHit hit, 1f, NavMesh.AllAreas))
-            {
-                return hit.position;
-            }
-        }
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public MonsterBehaviour mh;
 
     public void LoseGame()
     {
@@ -80,5 +23,19 @@ public class GameController : MonoBehaviour
     {
         // Pause game & show UI
         Debug.Log("You win");
+    }
+
+    public void ActivateSwitch()
+    {
+        doorCount += 1;
+        if (doorCount == 1)
+        {
+            // Turn the monster on 
+            mh.ActivateAI();
+        }
+        if (doorCount == maxSwitchesRequired)
+        {
+            SteelDoorReference.GetComponent<Door>().Open(Vector3.zero);
+        }
     }
 }

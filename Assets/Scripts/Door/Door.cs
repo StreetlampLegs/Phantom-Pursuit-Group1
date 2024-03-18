@@ -39,6 +39,10 @@ public class Door : MonoBehaviour
 
     private Coroutine _animationCoroutine;
 
+    [Space(10), Header("Audio Clips")]
+    public AudioSource doorOpeningClip;
+    public AudioSource doorFinishedClip;
+
     private void Awake()
     {
         _startRotation = transform.rotation.eulerAngles;
@@ -142,6 +146,7 @@ public class Door : MonoBehaviour
 
     private IEnumerator MoveDoor(Vector3 startPosition, Vector3 endPosition)
     {
+        doorOpeningClip.Play();
         float time = 0;
         while (time < 1)
         {
@@ -149,5 +154,8 @@ public class Door : MonoBehaviour
             yield return null;
             time += Time.deltaTime * _speed;
         }
+
+        doorOpeningClip.Stop();
+        doorFinishedClip.Play();
     }
 }
