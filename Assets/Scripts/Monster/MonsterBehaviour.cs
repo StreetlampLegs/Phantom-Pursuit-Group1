@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using StarterAssets;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using JetBrains.Annotations;
+using System.Collections;
 
 public class MonsterBehaviour : MonoBehaviour
 {
@@ -27,11 +30,23 @@ public class MonsterBehaviour : MonoBehaviour
 
 
     [Space(10)]
+    [Header("Monster Other Behaviour")]
+    [Tooltip("Time it takes for the monster to wake up after flicking the first switch")]
+    public float wakeupTime = 5f;
+
+    [Space(10)]
+    [Header("Monster Audio")]
+    public AudioClip MonsterAwakeSound;
+    public AudioClip MonsterAggroScreamSound;
+    public List<AudioClip> MonsterFootstepSounds;
+
+    [Space(10)]
     [Header("Object References")]
     public GameObject PlayerReference;
 
     NavMeshAgent agent;
     GameController gameController;
+    AudioSource audioPlayer;
 
     private Vector3 roamTargetPosition = Vector3.zero;
 
@@ -46,15 +61,23 @@ public class MonsterBehaviour : MonoBehaviour
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!PlayerReference) PlayerReference = GameObject.FindWithTag("Player");
         if (!gameController) gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        if (!audioPlayer) audioPlayer = GetComponent<AudioSource>();
 
         _aggroTimer = AggroSpeedIncreaseTime;
     }
 
     public void ActivateAI()
     {
-        isActive = true;
+        if (isActive) return;
+        StartCoroutine(DoWakeUpSequence());
     }
 
+    IEnumerator DoWakeUpSequence()
+    {
+        if (MonsterAwakeSound) audioPlayer.PlayOneShot(MonsterAwakeSound);
+        yield return new WaitForSeconds(wakeupTime);
+        isActive = true;
+    }
 
     void Update()
     {
@@ -91,6 +114,10 @@ public class MonsterBehaviour : MonoBehaviour
         if (_aggroTimer <= 0)
         {
             Debug.Log("Aggroed");
+            if (MonsterAggroScreamSound)
+            {
+                audioPlayer.PlayOneShot(MonsterAggroScreamSound);
+            }
             agent.speed += AggroSpeedIncreaseIncrement;
             _aggroTimer = AggroSpeedIncreaseTime;
         }
