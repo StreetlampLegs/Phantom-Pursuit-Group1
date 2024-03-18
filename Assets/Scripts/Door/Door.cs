@@ -39,7 +39,9 @@ public class Door : MonoBehaviour
 
     private Coroutine _animationCoroutine;
 
-    AudioSource clip;
+    [Space(10), Header("Audio Clips")]
+    public AudioSource doorOpeningClip;
+    public AudioSource doorFinishedClip;
 
     private void Awake()
     {
@@ -47,8 +49,6 @@ public class Door : MonoBehaviour
         _forward = transform.forward;
         _startPosition = transform.position;
         _openPosition = _startPosition + _slideAmount * _slideDirection;
-
-        clip = transform.parent.GetComponent<AudioSource>();
 
         if (IsOpen)
         {
@@ -146,6 +146,7 @@ public class Door : MonoBehaviour
 
     private IEnumerator MoveDoor(Vector3 startPosition, Vector3 endPosition)
     {
+        doorOpeningClip.Play();
         float time = 0;
         while (time < 1)
         {
@@ -154,6 +155,7 @@ public class Door : MonoBehaviour
             time += Time.deltaTime * _speed;
         }
 
-        clip.Play();
+        doorOpeningClip.Stop();
+        doorFinishedClip.Play();
     }
 }
