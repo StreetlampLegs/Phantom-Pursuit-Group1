@@ -7,9 +7,13 @@ public class DoorButton : MonoBehaviour
 
     private Vector3 _position;
 
+    AudioSource clip;
+
     private void Awake()
     {
         _position = transform.position;
+
+        clip = GetComponent<AudioSource>();
     }
 
     public void OnUse()
@@ -22,5 +26,7 @@ public class DoorButton : MonoBehaviour
         {
             _door.Open(_position);
         }
+
+        clip.Play();
     }
 }

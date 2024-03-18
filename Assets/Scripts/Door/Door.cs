@@ -39,12 +39,16 @@ public class Door : MonoBehaviour
 
     private Coroutine _animationCoroutine;
 
+    AudioSource clip;
+
     private void Awake()
     {
         _startRotation = transform.rotation.eulerAngles;
         _forward = transform.forward;
         _startPosition = transform.position;
         _openPosition = _startPosition + _slideAmount * _slideDirection;
+
+        clip = transform.parent.GetComponent<AudioSource>();
 
         if (IsOpen)
         {
@@ -149,5 +153,7 @@ public class Door : MonoBehaviour
             yield return null;
             time += Time.deltaTime * _speed;
         }
+
+        clip.Play();
     }
 }

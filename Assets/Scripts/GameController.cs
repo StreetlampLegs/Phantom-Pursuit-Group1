@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
 
     public GameObject SteelDoorReference;
 
-    int doorCount;
+    public int doorCount;
 
     int maxSwitchesRequired = 6;
 
@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
         }
         if (doorCount == maxSwitchesRequired)
         {
-            SteelDoorReference.GetComponent<NavMeshObstacle>().enabled = false;
+            SteelDoorReference.GetComponent<Door>().Open(Vector3.zero);
         }
     }
 }
