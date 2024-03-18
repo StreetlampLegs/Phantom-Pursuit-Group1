@@ -15,7 +15,7 @@ public class JournalBehaviour : MonoBehaviour
     void Start()
     {
         if (!gc) gc = GameObject.Find("GameController").GetComponent<GameController>();
-        if (!clip) GetComponent<AudioSource>();
+        if (!clip) clip = GetComponent<AudioSource>();
     }
 
     public void ReadJournal()
