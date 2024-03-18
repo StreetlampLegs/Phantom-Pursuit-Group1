@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
         if (doorCount == 1)
         {
             // Turn the monster on 
+            mh.ActivateAI();
         }
         if (doorCount == maxSwitchesRequired)
         {
